@@ -1,4 +1,5 @@
 ﻿using DatabaseTest.Entity;
+using DatabaseTest.Models;
 using DatabaseTest.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,7 +21,7 @@ namespace DatabaseTest.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Place>> GetAllPlaces()
+        public ActionResult<List<PlaceDto>> GetAllPlaces()
         {
             var places = _service.GetAllPlaces();
             return places;

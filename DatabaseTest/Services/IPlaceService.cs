@@ -1,4 +1,5 @@
 ﻿using DatabaseTest.Entity;
+using DatabaseTest.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace DatabaseTest.Services
 {
     public interface IPlaceService
     {
-        List<Place> GetAllPlaces();
-        Place GetSinglePlace(int id);
+        List<PlaceDto> GetAllPlaces();
+        PlaceDto GetSinglePlace(int id);
     }
 }
