@@ -1,4 +1,5 @@
 using DatabaseTest.Entity;
+using DatabaseTest.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,7 @@ namespace DatabaseTest
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddDbContext<PlaceDbContext>();
             services.AddScoped<DbSeeder>();
+            services.AddScoped<IPlaceService, PlaceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
