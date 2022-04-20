@@ -12,41 +12,41 @@ namespace DatabaseTest.Services
 {
     public class PlaceService : IPlaceService
     {
-        private readonly PlaceDbContext _context;
+        private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
 
-        public PlaceService(PlaceDbContext context, IMapper mapper)
+        public PlaceService(DatabaseContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public List<PlaceDto> GetAllPlaces()
+        public async Task<List<PlaceDto>> GetAllPlaces()
         {
-            var places = _context
+            var places =  await _context
                 .Places
                 .Include(a => a.Address)
                 .Include(p => p.Photos)
                 .ThenInclude(a => a.Photo)
                 .Include(r => r.Reviews)
                 .ThenInclude(z => z.Review)
-                .ToList();
+                .ToListAsync();
 
             var result = _mapper.Map<List<PlaceDto>>(places);
 
             return result;
         }
 
-        public PlaceDto GetSinglePlace(int id)
+        public async Task<PlaceDto> GetSinglePlace(int id)
         {
-            var place = _context
+            var place = await _context
                 .Places
                 .Include(a => a.Address)
                 .Include(p => p.Photos)
                 .ThenInclude(a => a.Photo)
                 .Include(r => r.Reviews)
                 .ThenInclude(z => z.Review)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
 
                 var result = _mapper.Map<PlaceDto>(place);
 

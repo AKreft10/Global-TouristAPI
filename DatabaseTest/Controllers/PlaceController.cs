@@ -21,17 +21,18 @@ namespace DatabaseTest.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<PlaceDto>> GetAllPlaces()
+        public async Task<ActionResult<List<PlaceDto>>> GetAllPlaces()
         {
-            var places = _service.GetAllPlaces();
+            var places = await _service.GetAllPlaces();
             return places;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Place> GetSinglePlace(int id)
+        public async Task<ActionResult<Place>> GetSinglePlace(int id)
         {
-            var place = _service.GetSinglePlace(id);
+            var place = await _service.GetSinglePlace(id);
             return Ok(place);
         }
+
     }
 }

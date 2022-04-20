@@ -10,7 +10,7 @@ namespace DatabaseTest.Services
 {
     public interface IPlaceService
     {
-        List<PlaceDto> GetAllPlaces();
-        PlaceDto GetSinglePlace(int id);
+        Task<List<PlaceDto>> GetAllPlaces();
+        Task<PlaceDto> GetSinglePlace(int id);
     }
 }
