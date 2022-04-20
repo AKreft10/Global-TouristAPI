@@ -51,5 +51,27 @@ namespace DatabaseTest.Services
 
             return result;
         }
+
+        private Accommodation GetAccomodationById(int id)
+        {
+            var accommodation = _context
+                .Accommodations
+                .Include(e => e.Address)
+                .Include(p => p.Photos)
+                .ThenInclude(a => a.Photo)
+                .Include(r => r.Reviews)
+                .ThenInclude(y => y.Review)
+                .FirstOrDefault(a => a.Id == id);
+
+            return accommodation;
+        }
+
+        public async Task DeleteAccommodationById(int id)
+        {
+            var accommodation = GetAccomodationById(id);
+
+            _context.Remove(accommodation);
+            await _context.SaveChangesAsync();
+        }
     }
 }

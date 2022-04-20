@@ -12,5 +12,6 @@ namespace DatabaseTest.Services
     {
         Task<List<AccommodationDto>> GetAllAccommodations();
         Task<AccommodationDto> GetSingleAccomodation(int id);
+        Task DeleteAccommodationById(int id);
     }
 }
