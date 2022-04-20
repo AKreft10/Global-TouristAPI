@@ -30,9 +30,10 @@ namespace DatabaseTest
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddControllers();
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddDbContext<PlaceDbContext>();
+            services.AddDbContext<DatabaseContext>();
             services.AddScoped<DbSeeder>();
             services.AddScoped<IPlaceService, PlaceService>();
+            services.AddScoped<IAccommodationService, AccommodationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

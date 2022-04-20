@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseTest.Migrations
 {
-    [DbContext(typeof(PlaceDbContext))]
+    [DbContext(typeof(Entity.DatabaseContext))]
     partial class PlaceDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

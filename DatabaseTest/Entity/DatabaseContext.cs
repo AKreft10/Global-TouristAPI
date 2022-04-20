@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DatabaseTest.Entity
 {
-    public class PlaceDbContext : DbContext
+    public class DatabaseContext : DbContext
     {
         private readonly IConfiguration _configuration;
 
-        public PlaceDbContext(IConfiguration configuration)
+        public DatabaseContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }

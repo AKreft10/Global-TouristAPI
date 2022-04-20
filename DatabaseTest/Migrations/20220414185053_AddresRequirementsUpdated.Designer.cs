@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseTest.Migrations
 {
-    [DbContext(typeof(PlaceDbContext))]
+    [DbContext(typeof(Entity.DatabaseContext))]
     [Migration("20220414185053_AddresRequirementsUpdated")]
     partial class AddresRequirementsUpdated
     {
