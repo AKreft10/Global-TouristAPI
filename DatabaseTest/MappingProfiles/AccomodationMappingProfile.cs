@@ -25,6 +25,12 @@ namespace DatabaseTest.MappingProfiles
 
             CreateMap<Photo, PhotoDto>();
             CreateMap<Review, ReviewDto>();
+
+            CreateMap<ReviewDto, Review>();
+
+            CreateMap<Review, AccommodationReview>();
+
+            CreateMap<AccommodationReviewDto, AccommodationReview>();
         }
     }
 }
