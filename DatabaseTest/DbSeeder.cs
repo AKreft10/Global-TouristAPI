@@ -9,9 +9,9 @@ namespace DatabaseTest
 {
     public class DbSeeder
     {
-        private readonly PlaceDbContext _context;
+        private readonly DatabaseContext _context;
 
-        public DbSeeder(PlaceDbContext context)
+        public DbSeeder(DatabaseContext context)
         {
             _context = context;
         }
