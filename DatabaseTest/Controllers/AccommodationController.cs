@@ -13,25 +13,34 @@ namespace DatabaseTest.Controllers
     [Route("api/accommodation")]
     public class AccommodationController : ControllerBase
     {
-        private readonly IAccommodationService _service;
+        private readonly IAccommodationService _accommodationService;
 
-        public AccommodationController(IAccommodationService service)
+        public AccommodationController(IAccommodationService accommodationService)
         {
-            _service = service;
+            _accommodationService = accommodationService;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<AccommodationDto>>> GetAllAccommodations()
         {
-            var accommodations = await _service.GetAllAccommodations();
+            var accommodations = await _accommodationService.GetAllAccommodations();
             return accommodations;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<AccommodationDto>> GetSingleAccomodation(int id)
         {
-            var accommodation = await _service.GetSingleAccomodation(id);
+            var accommodation = await _accommodationService.GetSingleAccomodation(id);
             return accommodation;
+        }
+
+        //Admin Endpoints
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAccommodationById(int id)
+        {
+            await _accommodationService.DeleteAccommodationById(id);
+            return NoContent();
         }
     }
 }
