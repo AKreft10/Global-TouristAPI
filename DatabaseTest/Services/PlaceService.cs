@@ -39,6 +39,14 @@ namespace DatabaseTest.Services
 
         public async Task<PlaceDto> GetSinglePlace(int id)
         {
+            var place = await GetPlaceById(id);
+            var result = _mapper.Map<PlaceDto>(place);
+
+            return result;
+        }
+
+        public async Task<Place> GetPlaceById(int id)
+        {
             var place = await _context
                 .Places
                 .Include(a => a.Address)
@@ -48,9 +56,7 @@ namespace DatabaseTest.Services
                 .ThenInclude(z => z.Review)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
-                var result = _mapper.Map<PlaceDto>(place);
-
-            return result;
+            return place;
         }
     }
 }

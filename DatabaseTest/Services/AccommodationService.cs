@@ -25,6 +25,7 @@ namespace DatabaseTest.Services
         {
             var accommodations = await _context
                 .Accommodations
+                .Include(a => a.Address)
                 .Include(p => p.Photos)
                 .ThenInclude(a => a.Photo)
                 .Include(r => r.Reviews)
@@ -38,6 +39,23 @@ namespace DatabaseTest.Services
 
         public async Task<AccommodationDto> GetSingleAccomodation(int id)
         {
+            var accommodation = await GetAccomodationById(id);
+
+            var result = _mapper.Map<AccommodationDto>(accommodation);
+
+            return result;
+        }
+
+        public async Task DeleteAccommodationById(int id)
+        {
+            var accommodation = await GetAccomodationById(id);
+
+            _context.Remove(accommodation);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task<Accommodation> GetAccomodationById(int id)
+        {
             var accommodation = await _context
                 .Accommodations
                 .Include(e => e.Address)
@@ -47,31 +65,7 @@ namespace DatabaseTest.Services
                 .ThenInclude(y => y.Review)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-            var result = _mapper.Map<AccommodationDto>(accommodation);
-
-            return result;
-        }
-
-        private Accommodation GetAccomodationById(int id)
-        {
-            var accommodation = _context
-                .Accommodations
-                .Include(e => e.Address)
-                .Include(p => p.Photos)
-                .ThenInclude(a => a.Photo)
-                .Include(r => r.Reviews)
-                .ThenInclude(y => y.Review)
-                .FirstOrDefault(a => a.Id == id);
-
             return accommodation;
-        }
-
-        public async Task DeleteAccommodationById(int id)
-        {
-            var accommodation = GetAccomodationById(id);
-
-            _context.Remove(accommodation);
-            await _context.SaveChangesAsync();
         }
     }
 }
