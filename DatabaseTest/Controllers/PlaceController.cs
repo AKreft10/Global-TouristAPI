@@ -33,7 +33,5 @@ namespace DatabaseTest.Controllers
             var place = await _service.GetSinglePlace(id);
             return Ok(place);
         }
-
-
     }
 }

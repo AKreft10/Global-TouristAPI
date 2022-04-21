@@ -1,4 +1,5 @@
-﻿using DatabaseTest.Models;
+﻿using DatabaseTest.Entity;
+using DatabaseTest.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace DatabaseTest.Services
     {
         Task AddReviewToAccommodation(int id, ReviewDto dto);
         Task DeleteReviewById(int id);
+        Task<List<ReviewDto>> GetReviewsByAccommodationId(int id);
     }
 }

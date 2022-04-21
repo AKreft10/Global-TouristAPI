@@ -1,4 +1,5 @@
-﻿using DatabaseTest.Models;
+﻿using DatabaseTest.Entity;
+using DatabaseTest.Models;
 using DatabaseTest.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseTest.Controllers
 {
-    [Route("api/review")]
+    [Route("api/accommodation/{accommodationId}/review")]
     public class ReviewController : ControllerBase
     {
         private readonly IReviewService _reviewService;
@@ -19,10 +20,17 @@ namespace DatabaseTest.Controllers
             _reviewService = reviewService;
         }
 
-        [HttpPost("{id}")]
-        public async Task<ActionResult> AddReview([FromRoute] int id, [FromBody] ReviewDto dto)
+        [HttpGet]
+        public async Task<ActionResult<List<ReviewDto>>> GetReviewsByAccommodationId(int accommodationId)
         {
-            await _reviewService.AddReviewToAccommodation(id, dto);
+            var reviews = await _reviewService.GetReviewsByAccommodationId(accommodationId);
+            return reviews;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddReview([FromRoute] int accommodationId, [FromBody] ReviewDto dto)
+        {
+            await _reviewService.AddReviewToAccommodation(accommodationId, dto);
             return Created("", null);
         }
 

@@ -48,5 +48,18 @@ namespace DatabaseTest.Services
             _context.Remove(review);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<ReviewDto>> GetReviewsByAccommodationId(int id)
+        {
+            var reviews = await _context
+                .AccommodationReviews
+                .Where(r => r.AccommodationId == id)
+                .Select(z => z.Review)
+                .ToListAsync();
+
+            var result = _mapper.Map<List<ReviewDto>>(reviews);
+
+            return result;
+        }
     }
 }
