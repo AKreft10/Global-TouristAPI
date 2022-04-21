@@ -34,6 +34,7 @@ namespace DatabaseTest
             services.AddScoped<DbSeeder>();
             services.AddScoped<IPlaceService, PlaceService>();
             services.AddScoped<IAccommodationService, AccommodationService>();
+            services.AddScoped<IReviewService, ReviewService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
