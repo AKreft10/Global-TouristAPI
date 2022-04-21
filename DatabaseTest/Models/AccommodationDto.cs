@@ -15,6 +15,8 @@ namespace DatabaseTest.Models
         public string City { get; set; }
         public string Street { get; set; }
         public string PostalCode { get; set; }
+        public bool? HasPool { get; set; }
+        public int? Stars { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public virtual List<PhotoDto> PhotoGallery { get; set; }
