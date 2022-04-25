@@ -35,6 +35,8 @@ namespace DatabaseTest
             services.AddScoped<IPlaceService, PlaceService>();
             services.AddScoped<IAccommodationService, AccommodationService>();
             services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IDistanceService, DistanceService>();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +52,8 @@ namespace DatabaseTest
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DatabaseTest"));
 
             app.UseAuthorization();
 

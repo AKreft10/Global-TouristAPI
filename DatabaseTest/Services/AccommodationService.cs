@@ -67,5 +67,14 @@ namespace DatabaseTest.Services
 
             return accommodation;
         }
+
+        public async Task<int> CreateAccommodation(CreateAccommodationDto dto)
+        {
+            var accommodation = _mapper.Map<Accommodation>(dto);
+            await _context.Accommodations.AddAsync(accommodation);
+            await _context.SaveChangesAsync();
+
+            return accommodation.Id;
+        }
     }
 }

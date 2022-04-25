@@ -23,14 +23,19 @@ namespace DatabaseTest.MappingProfiles
                 .ForMember(p => p.PhotoGallery, c => c.MapFrom(x => x.Photos.Select(y => y.Photo).ToList()))
                 .ForMember(p => p.Reviews, c => c.MapFrom(x => x.Reviews.Select(y => y.Review).ToList()));
 
-            CreateMap<Photo, PhotoDto>();
-            CreateMap<Review, ReviewDto>();
 
-            CreateMap<ReviewDto, Review>();
+            CreateMap<CreateAccommodationDto, Accommodation>()
+                .ForMember(r => r.Address,
+                    c => c.MapFrom(dto => new Address()
+                    {
+                        Country = dto.Country,
+                        City = dto.City,
+                        PostalCode = dto.PostalCode,
+                        Street = dto.Street,
+                        Latitude = dto.Latitude,
+                        Longitude = dto.Longitude,
+                    }));
 
-            CreateMap<Review, AccommodationReview>();
-
-            CreateMap<AccommodationReviewDto, AccommodationReview>();
         }
     }
 }
