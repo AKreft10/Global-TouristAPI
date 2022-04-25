@@ -10,7 +10,7 @@ namespace DatabaseTest.Services
 {
     public interface IReviewService
     {
-        Task AddReviewToAccommodation(int id, ReviewDto dto);
+        Task<int> AddReviewToAccommodation(int id, ReviewDto dto);
         Task DeleteReviewById(int id);
         Task<List<ReviewDto>> GetReviewsByAccommodationId(int id);
     }

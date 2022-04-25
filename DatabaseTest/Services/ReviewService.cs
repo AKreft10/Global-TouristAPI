@@ -21,7 +21,7 @@ namespace DatabaseTest.Services
             _mapper = mapper;
         }
 
-        public async Task AddReviewToAccommodation(int id, ReviewDto dto)
+        public async Task<int> AddReviewToAccommodation(int id, ReviewDto dto)
         {
             var result = _mapper.Map<Review>(dto);
 
@@ -37,6 +37,8 @@ namespace DatabaseTest.Services
 
             await _context.AccommodationReviews.AddAsync(mappedReview);
             await _context.SaveChangesAsync();
+
+            return mappedReview.ReviewId;
         }
 
         public async Task DeleteReviewById(int id)
