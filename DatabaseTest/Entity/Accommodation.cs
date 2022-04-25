@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DatabaseTest.Entity
@@ -14,6 +15,7 @@ namespace DatabaseTest.Entity
         public int AddressId { get; set; }
         public int? Stars { get; set; }
         public bool? HasPool { get; set; }
+        [JsonIgnore]
         public virtual Address Address { get; set; }
         public ICollection<AccommodationPhoto> Photos { get; set; }
         public ICollection<AccommodationReview> Reviews { get; set; }
