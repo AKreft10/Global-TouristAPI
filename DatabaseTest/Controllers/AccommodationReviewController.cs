@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 namespace DatabaseTest.Controllers
 {
     [Route("api/accommodation/{accommodationId}/review")]
-    public class ReviewController : ControllerBase
+    public class AccommodationReviewController : ControllerBase
     {
         private readonly IReviewService _reviewService;
 
-        public ReviewController(IReviewService reviewService)
+        public AccommodationReviewController(IReviewService reviewService)
         {
             _reviewService = reviewService;
         }
@@ -30,8 +30,8 @@ namespace DatabaseTest.Controllers
         [HttpPost]
         public async Task<ActionResult> AddReview([FromRoute] int accommodationId, [FromBody] ReviewDto dto)
         {
-            await _reviewService.AddReviewToAccommodation(accommodationId, dto);
-            return Created("", null);
+            var reviewid = await _reviewService.AddReviewToAccommodation(accommodationId, dto);
+            return Created($"api/accommodation/{accommodationId}/review/{reviewid}", null);
         }
 
         [HttpDelete("{id}")]

@@ -42,5 +42,12 @@ namespace DatabaseTest.Controllers
             await _accommodationService.DeleteAccommodationById(id);
             return NoContent();
         }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateAccommodation([FromBody]CreateAccommodationDto dto)
+        {
+            var result = await _accommodationService.CreateAccommodation(dto);
+            return Created($"/api/accommodation/{result}", null);
+        }
     }
 }
