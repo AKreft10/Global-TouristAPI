@@ -22,7 +22,7 @@ namespace DatabaseTest.Entity
         public DbSet<Accommodation> Accommodations { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<Address> Addresses => Set<Address>();
+        public DbSet<Address> Addresses  { get; set; }
         public DbSet<AccommodationPhoto> AcommodationPhotos { get; set; }
         public DbSet<PlacePhoto> PlacePhotos { get; set; }
         public DbSet<AccommodationReview> AccommodationReviews { get; set; }
