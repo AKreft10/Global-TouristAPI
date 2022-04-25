@@ -14,11 +14,13 @@ namespace DatabaseTest.Services
     {
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
+        private readonly IDistanceService _distanceService;
 
-        public PlaceService(DatabaseContext context, IMapper mapper)
+        public PlaceService(DatabaseContext context, IMapper mapper, IDistanceService distanceService)
         {
             _context = context;
             _mapper = mapper;
+            _distanceService = distanceService;
         }
 
         public async Task<List<PlaceDto>> GetAllPlaces()
@@ -57,6 +59,12 @@ namespace DatabaseTest.Services
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             return place;
+        }
+
+        public async Task<IList<KeyValuePair<string, TimeAndDistanceDto>>> GetNearestAccommodations(int id)
+        {
+            var HotelsWithDistances = await _distanceService.GetTheNearestAccommodations(id);
+            return HotelsWithDistances;
         }
     }
 }

@@ -27,6 +27,13 @@ namespace DatabaseTest.Controllers
             return places;
         }
 
+        [HttpGet("{id}/AccommodationsNearby")]
+        public async Task<ActionResult<SortedDictionary<string, TimeAndDistanceDto>>> GetAcc(int id)
+        {
+            var nearestaccommodations = await _service.GetNearestAccommodations(id);
+            return Ok(nearestaccommodations);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Place>> GetSinglePlace(int id)
         {

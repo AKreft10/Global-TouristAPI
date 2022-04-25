@@ -12,5 +12,6 @@ namespace DatabaseTest.Services
     {
         Task<List<PlaceDto>> GetAllPlaces();
         Task<PlaceDto> GetSinglePlace(int id);
+        Task<IList<KeyValuePair<string, TimeAndDistanceDto>>> GetNearestAccommodations(int id);
     }
 }
