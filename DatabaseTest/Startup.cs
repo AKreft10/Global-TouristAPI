@@ -1,4 +1,5 @@
 using DatabaseTest.Entity;
+using DatabaseTest.Middleware;
 using DatabaseTest.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,7 @@ namespace DatabaseTest
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddDbContext<DatabaseContext>();
             services.AddScoped<DbSeeder>();
+            services.AddScoped<ExceptionMiddleware>();
             services.AddScoped<IPlaceService, PlaceService>();
             services.AddScoped<IAccommodationService, AccommodationService>();
             services.AddScoped<IReviewService, ReviewService>();
@@ -48,6 +50,7 @@ namespace DatabaseTest
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 
