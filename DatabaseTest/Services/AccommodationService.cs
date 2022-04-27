@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DatabaseTest.Entity;
+using DatabaseTest.Exceptions;
 using DatabaseTest.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -40,6 +41,11 @@ namespace DatabaseTest.Services
         public async Task<AccommodationDto> GetSingleAccomodation(int id)
         {
             var accommodation = await GetAccomodationById(id);
+
+            if(accommodation is null)
+            {
+                throw new NotFoundException("Accommodation not found ):");
+            }
 
             var result = _mapper.Map<AccommodationDto>(accommodation);
 
