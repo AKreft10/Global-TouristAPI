@@ -1,6 +1,7 @@
 ﻿using DatabaseTest.Entity;
 using DatabaseTest.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -16,10 +17,12 @@ namespace DatabaseTest.Services
     public class DistanceService : IDistanceService
     {
         private readonly DatabaseContext _context;
+        private readonly IConfiguration _configuration;
 
-        public DistanceService(DatabaseContext context)
+        public DistanceService(DatabaseContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<IList<KeyValuePair<string, TimeAndDistanceDto>>> GetTheNearestAccommodations(int id)
@@ -43,10 +46,11 @@ namespace DatabaseTest.Services
                 .Addresses
                 .FirstOrDefaultAsync(a => a.Id == place.AddressId);
 
-            CoordinatesDto coords = new CoordinatesDto();
-
-            coords.Latitude = address.Latitude;
-            coords.Longitude = address.Longitude;
+            CoordinatesDto coords = new CoordinatesDto()
+            {
+                Latitude = address.Latitude,
+                Longitude = address.Longitude
+            };
 
             return coords;
         }
@@ -68,14 +72,14 @@ namespace DatabaseTest.Services
 
             foreach (var accommodation in accommodations)
             {
-                var accommodationCords = new CoordinatesDto();
-                accommodationCords.Longitude = accommodation.Address.Longitude;
-                accommodationCords.Latitude = accommodation.Address.Latitude;
+                var accommodationCords = new CoordinatesDto()
+                {
+                    Longitude = accommodation.Address.Longitude,
+                    Latitude = accommodation.Address.Latitude
+                };
 
                 var distance = await GetTimeAndDistance(accommodationCords, placeCoords);
-
                 distancesList.Add(new KeyValuePair<string, TimeAndDistanceDto>(accommodation.Name, distance));
-
             }
 
             IList<KeyValuePair<string, TimeAndDistanceDto>> orderedList = distancesList
@@ -98,7 +102,7 @@ namespace DatabaseTest.Services
 
         private async Task<TimeAndDistanceDto> GetTimeAndDistance(CoordinatesDto accommodationCords, CoordinatesDto placeCoords)
         {
-            var key = "AgqJrC_5ow_6J42AlmXeISjRNKCOd5j9VGn5PxhBWpskh5xkGkwjf-gO0yQ4u-l8";
+            var key = _configuration.GetValue<string>("BingMapsKey");
             var lat1 = placeCoords.Latitude.ToString().Replace(',','.');
             var lon1 = placeCoords.Longitude.ToString().Replace(',', '.');
 
@@ -113,13 +117,14 @@ namespace DatabaseTest.Services
 
                 var content = JsonConvert.DeserializeObject<Rootobject>(cont);
 
-                TimeAndDistanceDto timeAndDistance = new TimeAndDistanceDto();
+            TimeAndDistanceDto timeAndDistance = new TimeAndDistanceDto()
+            {
 
-            timeAndDistance.Distance = Math.Round((double)content.resourceSets[0].resources[0].results[0].travelDistance, 2);
-            timeAndDistance.Time = Math.Round((double)content.resourceSets[0].resources[0].results[0].travelDuration);
+                Distance = Math.Round((double)content.resourceSets[0].resources[0].results[0].travelDistance, 2),
+                Time = Math.Round((double)content.resourceSets[0].resources[0].results[0].travelDuration)
+            };
 
             return timeAndDistance;
-
         }
     }
 }
