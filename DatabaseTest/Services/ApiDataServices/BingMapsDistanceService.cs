@@ -37,7 +37,7 @@ namespace DatabaseTest.Services.ApiDataServices
 
             var content = JsonConvert.DeserializeObject<Rootobject>(cont);
 
-            TimeAndDistanceDto timeAndDistance = new TimeAndDistanceDto()
+            TimeAndDistanceDto timeAndDistance = new()
             {
 
                 Distance = Math.Round((double)content.resourceSets[0].resources[0].results[0].travelDistance, 2),
