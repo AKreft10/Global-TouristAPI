@@ -1,6 +1,7 @@
 using DatabaseTest.Entity;
 using DatabaseTest.Middleware;
 using DatabaseTest.Services;
+using DatabaseTest.Services.ApiDataServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,6 +39,7 @@ namespace DatabaseTest
             services.AddScoped<IAccommodationService, AccommodationService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IDistanceService, DistanceService>();
+            services.AddScoped<IBingMapsDistanceService, BingMapsDistanceService>();
             services.AddSwaggerGen();
         }
 

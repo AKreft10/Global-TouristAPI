@@ -1,5 +1,6 @@
 ﻿using DatabaseTest.Entity;
 using DatabaseTest.Models;
+using DatabaseTest.Services.ApiDataServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -17,12 +18,12 @@ namespace DatabaseTest.Services
     public class DistanceService : IDistanceService
     {
         private readonly DatabaseContext _context;
-        private readonly IConfiguration _configuration;
+        private readonly IBingMapsDistanceService _bingMapsService;
 
-        public DistanceService(DatabaseContext context, IConfiguration configuration)
+        public DistanceService(DatabaseContext context, IBingMapsDistanceService bingMapsService)
         {
             _context = context;
-            _configuration = configuration;
+            _bingMapsService = bingMapsService;
         }
 
         public async Task<IList<KeyValuePair<string, TimeAndDistanceDto>>> GetTheNearestAccommodations(int id)
@@ -78,7 +79,7 @@ namespace DatabaseTest.Services
                     Latitude = accommodation.Address.Latitude
                 };
 
-                var distance = await GetTimeAndDistance(accommodationCords, placeCoords);
+                var distance = await _bingMapsService.GetTimeAndDistance(accommodationCords, placeCoords);
                 distancesList.Add(new KeyValuePair<string, TimeAndDistanceDto>(accommodation.Name, distance));
             }
 
@@ -100,31 +101,5 @@ namespace DatabaseTest.Services
             return hotels;
         }
 
-        private async Task<TimeAndDistanceDto> GetTimeAndDistance(CoordinatesDto accommodationCords, CoordinatesDto placeCoords)
-        {
-            var key = _configuration.GetValue<string>("BingMapsKey");
-            var lat1 = placeCoords.Latitude.ToString().Replace(',','.');
-            var lon1 = placeCoords.Longitude.ToString().Replace(',', '.');
-
-            var lat2 = accommodationCords.Latitude.ToString().Replace(',', '.');
-            var lon2 = accommodationCords.Longitude.ToString().Replace(',', '.');
-
-            var jsonUrl = $"https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?origins={lat1},{lon1};{lat2},{lon2}&travelMode=driving&key={key}";
-
-                var client = new HttpClient();
-                var response = await client.GetAsync(jsonUrl);
-                var cont = await response.Content.ReadAsStringAsync();
-
-                var content = JsonConvert.DeserializeObject<Rootobject>(cont);
-
-            TimeAndDistanceDto timeAndDistance = new TimeAndDistanceDto()
-            {
-
-                Distance = Math.Round((double)content.resourceSets[0].resources[0].results[0].travelDistance, 2),
-                Time = Math.Round((double)content.resourceSets[0].resources[0].results[0].travelDuration)
-            };
-
-            return timeAndDistance;
-        }
     }
 }
