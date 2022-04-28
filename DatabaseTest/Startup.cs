@@ -40,6 +40,7 @@ namespace DatabaseTest
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IDistanceService, DistanceService>();
             services.AddScoped<IBingMapsDistanceService, BingMapsDistanceService>();
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddSwaggerGen();
         }
 

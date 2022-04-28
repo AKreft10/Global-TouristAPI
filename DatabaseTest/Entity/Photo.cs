@@ -11,6 +11,7 @@ namespace DatabaseTest.Entity
         public int Id { get; set; }
         public string PhotoUrl { get; set; }
         public string Author { get; set; }
+        public bool GalleryMember { get; set; }
         public ICollection<AccommodationPhoto> AccomodationPhotos { get; set; }
         public ICollection<PlacePhoto> PlacePhotos { get; set; }
     }
